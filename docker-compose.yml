@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   blogdb:
     build:
@@ -29,16 +27,16 @@ services:
     command: "bun run --watch src/index.ts"
 
   blogclient:
-    build:
-      context: ./client
-    container_name: blogclient
-    ports:
-      - "3001:3001"
-    depends_on:
-      - blogserver
-    volumes:
-      - ./client:/app
-      - /app/node_modules
-    environment:
-      - VITE_API_URL=http://blogserver:3000
-    command: "bun run dev"
+        build:
+            context: ./client
+        container_name: blogclient
+        ports:
+            - "3001:5173"
+        volumes:
+            - ./client:/app
+            - /app/node_modules  # This creates an anonymous volume for node_modules
+        depends_on:
+            - blogserver
+        environment:
+            - VITE_API_URL=http://localhost:3000
+        command: "bun run dev --host"

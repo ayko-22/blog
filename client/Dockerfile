@@ -1,20 +1,16 @@
-# Use Bun's official image
 FROM oven/bun:latest
 
-# Set working directory
+# Set environment to development so devDependencies are installed
+ENV NODE_ENV=development
+
 WORKDIR /app
 
-# Copy package files first for efficient Docker caching
-COPY package.json bun.lockb ./
+COPY package.json ./
 
-# Install dependencies using Bun
 RUN bun install
 
-# Copy the rest of the app
 COPY . .
 
-# Expose Vite's default port
-EXPOSE 3001
+EXPOSE 5173
 
-# Start the Vite React development server
-CMD ["bun", "run", "dev"]
+CMD ["bun", "run", "dev", "--host"]
