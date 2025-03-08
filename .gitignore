@@ -1,0 +1,54 @@
+# Node/Bun dependencies
+node_modules/
+bun.lockb
+.pnpm-lock.yaml
+yarn.lock
+package-lock.json
+
+# Build artifacts
+dist/
+build/
+bun.out/
+*.tsbuildinfo
+db/
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+bun-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+debug.log
+
+# Database files (PostgreSQL)
+pgdata/
+*.pid
+*.seed
+*.sqlite
+
+# Drizzle ORM migrations (only exclude temporary files, not actual migrations)
+drizzle/migrations/meta/
+drizzle/migrations/meta/_journal.json
+
+# IDE / OS Files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Bun Cache
+.bun/
+.cache/
+
+# Docker-related
+docker-compose.override.yml
+*.dockerignore
