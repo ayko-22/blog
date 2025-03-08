@@ -1,26 +1,44 @@
+version: "3.8"
+
 services:
   blogdb:
-          build:
-              context: ./postgres
-          container_name: blogdb
-          ports:
-              - "5432:5432"
-          environment:
-              POSTGRES_USER: user
-              POSTGRES_PASSWORD: password
-              POSTGRES_DB: dbname
-          volumes:
-              - ./db/data:/var/lib/postgresql/data
+    build:
+      context: ./postgres
+    container_name: blogdb
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: dbname
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
+
   blogserver:
-        build:
-            context: ./server
-        container_name: blogserver
-        ports:
-            - "3000:3000"
-        depends_on:
-            - blogdb
-        environment:
-            - DATABASE_URL=postgresql://user:password@blogdb:5432/dbname
-        volumes:
-            - ./server:/app
-        command: "bun run --watch src/index.ts" # Adjust based on your Bun entry pointd
+    build:
+      context: ./server
+    container_name: blogserver
+    ports:
+      - "3000:3000"
+    depends_on:
+      - blogdb
+    environment:
+      - DATABASE_URL=postgresql://user:password@blogdb:5432/dbname
+    volumes:
+      - ./server:/app
+    command: "bun run --watch src/index.ts"
+
+  blogclient:
+    build:
+      context: ./client
+    container_name: blogclient
+    ports:
+      - "3001:3001"
+    depends_on:
+      - blogserver
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://blogserver:3000
+    command: "bun run dev"
